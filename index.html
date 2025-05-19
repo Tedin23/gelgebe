@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talking Buddy - Gelgebe</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe8ec, #c8e7ff);
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .character {
+      width: 220px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .speech-bubble {
+      margin-top: 20px;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-size: 20px;
+      color: #222;
+      position: relative;
+      max-width: 300px;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border: 15px solid transparent;
+      border-top-color: white;
+    }
+    .hide {
+      display: none;
+    }
+    .listening {
+      border: 3px dashed red;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <img src="data:image/jpeg;base64,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" class="character" id="toy" alt="Talking Toy" />
+  <div class="speech-bubble" id="bubble">ሰላም፣ እኔ ገልገቤ ነኝ!</div>
+
+  <script>
+    const bubble = document.getElementById('bubble');
+    const synth = window.speechSynthesis;
+
+    // Force loading voices
+    let amharicVoice = null;
+    let fallbackVoice = null;
+
+    function loadVoices() {
+      const voices = synth.getVoices();
+      amharicVoice = voices.find(v => v.lang === 'am-ET');
+      fallbackVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+    }
+
+    // Reload voices when available
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+
+    const speak = (text) => {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'am-ET';
+      utter.voice = amharicVoice || fallbackVoice;
+      utter.pitch = 1.1;
+      utter.rate = 0.95;
+      synth.cancel(); // stop anything else
+      synth.speak(utter);
+    };
+
+    window.onload = () => {
+      speak("ሰላም፣ እኔ ገልገቤ ነኝ። እባክህ ንገረኝ!");
+      setTimeout(() => bubble.classList.add('hide'), 5000);
+    };
+
+    // Amharic voice recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'am-ET';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+      bubble.classList.remove('hide');
+      bubble.textContent = "እየሰማሁ ነኝ...";
+      bubble.classList.add('listening');
+    };
+
+    recognition.onresult = (event) => {
+      const userInput = event.results[0][0].transcript;
+      console.log("User said:", userInput);
+
+      let reply = "አልሰማሁም እንደገና ንገረኝ።";
+      if (userInput.includes("ሰላም")) reply = "ሰላም እንዴት ነህ?";
+      else if (userInput.includes("እንተኛ")) reply = "መተኛት ጊዜ ነው፣ ተኝ በሰላም!";
+      else if (userInput.includes("ምን ነው")) reply = "እባኮትን ጥያቄ ጠይቅ።";
+
+      bubble.textContent = reply;
+      speak(reply);
+
+      setTimeout(() => bubble.classList.add('hide'), 5000);
+      bubble.classList.remove('listening');
+    };
+
+    recognition.onerror = (event) => {
+      bubble.textContent = "ችግር አለ፣ እባኮትን እንደገና ሞክር።";
+      bubble.classList.remove('listening');
+    };
+
+    document.body.addEventListener('click', () => {
+      recognition.start();
+    });
+  </script>
+</body>
+</html>
